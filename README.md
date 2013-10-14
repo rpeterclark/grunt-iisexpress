@@ -35,13 +35,13 @@ grunt.initConfig({
 ### Options
 
 #### options.cmd
-Type: `String`
+Type: `String`  
 Default value: `c:/program files/iis express/iisexpress.exe`
 
 A string value that specifies the location of the IIS Express executable.
 
 #### options.killOn
-Type: `String`
+Type: `String`  
 Default value: `''`
 
 A string value that is used to determine when the IIS Express process should be killed. The IIS Express process will not automatically terminate when Grunt exits. This may be your desired behavior. If, however, you *do* want the IIS Express process to terminate, you will have to specify the name of an event for it to trigger the process kill.
@@ -51,49 +51,49 @@ A string value that is used to determine when the IIS Express process should be 
 Refer to the [IIS Express](http://www.iis.net/learn/extensions/using-iis-express/running-iis-express-from-the-command-line) command line documentation for the following options.
 
 #### options.path
-Type: `String`
+Type: `String`  
 Default value: `require('path').resolve('.')`
 
 The full physical path of the application to run. You cannot combine this option with the `config` and related options.
 
 #### options.port
-Type: `Integer`
+Type: `Integer`  
 Default value: `8080`
 
 The port to which the application will bind. The default value is `8080`. You must also specify the `path` option.
 
 #### options.clr
-Type: `String`
+Type: `String`  
 Default value: `v4.0`
 
 The .NET Framework version (e.g. `v2.0`) to use to run the application. The default value is `v4.0`. You must also specify the `path` option.
 
 #### options.config
-Type: `String`
+Type: `String`  
 Default value: `null`
 
 The full path to the `applicationhost.config` file. The default value is the `IISExpress8\config\applicationhost.config` file that is located in the user's Documents folder.
 
 #### options.site
-Type: `String`
+Type: `String`  
 Default value: `null`
 
 The name of the site to launch, as described in the `applicationhost.config` file.
 
 #### options.siteid
-Type: `String`
+Type: `String`  
 Default value: `null`
 
 The ID of the site to launch, as described in the `applicationhost.config` file.
 
 #### options.systray
-Type: `Boolean`
+Type: `Boolean`  
 Default value: `true`
 
 Enables or disables the system tray application. The default value is `true`.
 
 #### options.trace
-Type: `String`
+Type: `String`  
 Default value: `null`
 
 Valid values are `info` or `i`, `warning` or `w`, `error` or `e`. 

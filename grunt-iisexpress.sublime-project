@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": ".",
+			"folder_exclude_patterns": [
+				"node_modules",
+				"build"
+			],
+			"file_exclude_patterns": [
+				"*.sublime-workspace"
+			]
+		}
+	],
+	"build_systems": [
+		{
+			"name": "grunt",
+			"cmd": ["grunt", "--no-color"],
+			"windows": {
+				"cmd": ["grunt.cmd", "--no-color"]
+			}
+		}
+	]
+}

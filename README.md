@@ -26,7 +26,9 @@ In your project's Gruntfile, add a section named `iisexpress` to the data object
 grunt.initConfig({
 	iisexpress: {
 		server: {
-			port: 3000
+			options: {
+				port: 3000
+			}
 		}
 	}
 });
@@ -107,7 +109,9 @@ In this example, `grunt iisexpress` will start an IIS Express server at `http://
 grunt.initConfig({
 	iisexpress: {
 		server: {
-			port: 8000
+			options: {
+				port: 8000
+			}
 		}
 	}
 });
@@ -132,14 +136,16 @@ You may be able to listen to an event emitted by another Grunt plugin that you a
 grunt.initConfig({
 	iisexpress: {
 		server: {
-			port: 8000,
-			killOn: 'qunit.done'
+			options: {
+				port: 8000,
+				killOn: 'qunit.done'
+			}
 		}
 	},
 	qunit: {
 		test: {
 			options: {
-				urls: ['http://localhost/test/foo.html']
+				urls: ['http://localhost:8000/test/foo.html']
 			}
 		}
 	}
@@ -153,7 +159,6 @@ If there is not an event available for you to use, you can register a small cust
 grunt.initConfig({
 	iisexpress: {
 		server: {
-			port: 8000,
 			killOn: 'mytasks.done'
 		}
 	}

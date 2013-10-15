@@ -1,14 +1,5 @@
-/*
- * grunt-iisexpress
- * https://github.com/rpeterclark/grunt-iisexpress
- *
- * Copyright (c) 2013 R. Peter Clark
- * Licensed under the MIT license.
- */
-
-'use strict';
-
 module.exports = function(grunt) {
+	'use strict';
 
 	// Project configuration.
 	grunt.initConfig({

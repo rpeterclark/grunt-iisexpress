@@ -23,7 +23,9 @@ module.exports = function(grunt) {
 			cmd: options.cmd,
 			args: args,
 			opts: spawnOptions
-		}, function() {});
+		}, function(error, result, code) {
+			grunt.event.emit('iisexpress.done', error, result, code);
+		});
 
 		spawn.stdout.on('data', function (data) {
 			grunt.log.write('IIS Express: ' + data);

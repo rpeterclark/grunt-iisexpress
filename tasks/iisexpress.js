@@ -14,11 +14,24 @@ module.exports = function(grunt) {
 				return '-' + option[0] + ':' + option[1];
 		});
 
+		var spawnOptions = {
+			detached: true
+		};
+
 		// Start up IIS Express with the specified arguments
 		var spawn = grunt.util.spawn({
 			cmd: options.cmd,
-			args: args
+			args: args,
+			opts: spawnOptions
 		}, function() {});
+
+		spawn.stdout.on('data', function (data) {
+			grunt.log.write('IIS Express: ' + data);
+		});
+
+		spawn.stderr.on('data', function (data) {
+			grunt.warn('IIS Express: ' + data);
+		});
 
 		grunt.log.ok('Started IIS Express.');
 

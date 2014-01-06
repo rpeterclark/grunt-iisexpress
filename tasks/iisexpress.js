@@ -34,11 +34,11 @@ module.exports = function(grunt) {
 		});
 
 		spawn.stdout.on('data', function (data) {
-			grunt.log.write('IIS Express: ' + data);
+			grunt.log.write(data);
 		});
 
 		spawn.stderr.on('data', function (data) {
-			grunt.warn('IIS Express: ' + data);
+			grunt.warn(data);
 		});
 
 		grunt.log.ok('Started IIS Express.');

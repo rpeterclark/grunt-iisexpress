@@ -1,7 +1,7 @@
 {
   "name": "grunt-iisexpress",
   "description": "Start an IIS Express process",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "homepage": "https://github.com/rpeterclark/grunt-iisexpress",
   "author": {
     "name": "R. Peter Clark",

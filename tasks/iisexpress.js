@@ -11,8 +11,9 @@ module.exports = function(grunt) {
 			openUrl: null
 		});
 
-		if (options.config === undefined &&
-			options.path === undefined) {
+		// If no entry point defined: run in the current dir
+		if (options.config === undefined && options.site === undefined &&
+			options.siteid === undefined && options.path === undefined) {
 			options.path = '.';
 		}
 

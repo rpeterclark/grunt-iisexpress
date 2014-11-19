@@ -8,7 +8,8 @@ module.exports = function(grunt) {
 			killOn: '',
 			open: false,
 			openPath: '/',
-			openUrl: null
+			openUrl: null,
+			verbose: false
 		});
 
 		// If no entry point defined: run in the current dir
@@ -18,7 +19,7 @@ module.exports = function(grunt) {
 		}
 
 		// Convert options to command line parameter format
-		var args = _.map(_.pairs(_.omit(options, ['cmd', 'killOn', 'open', 'openPath', 'openUrl'])), function(option) {
+		var args = _.map(_.pairs(_.omit(options, ['cmd', 'killOn', 'open', 'openPath', 'openUrl', 'verbose'])), function(option) {
 			if (option[0] == 'path') {
 				option[1] = require('path').resolve(option[1]);
 			}
@@ -38,9 +39,11 @@ module.exports = function(grunt) {
 			grunt.event.emit('iisexpress.done', error, result, code);
 		});
 
-		spawn.stdout.on('data', function (data) {
-			grunt.log.write(data);
-		});
+		if (options.verbose===true) {
+			spawn.stdout.on('data', function (data) {
+				grunt.log.write(data);
+			});
+		}
 
 		spawn.stderr.on('data', function (data) {
 			grunt.warn(data);

@@ -42,11 +42,49 @@ Default value: `c:/program files/iis express/iisexpress.exe`
 
 A string value that specifies the location of the IIS Express executable.
 
+#### options.keepalive
+Type: `Boolean`  
+Default value: `false`
+
+Keep the server alive until Grunt is terminated (via `ctrl+c` for example). Note that if this option is enabled, any tasks specified after this task will *never run*. By default, once Grunt tasks have completed, the web server stops. This option changes that behavior.
+
+This option can also be enabled ad-hoc by running the task like `grunt iisexpress:targetname:keepalive`.
+
+#### options.killOnExit
+Type: `Boolean`  
+Default value: `true`
+
+Kills IIS Express process after Grunt tasks have completed. Enabled by default. If you want to keep IIS Express server running after Grunt tasks have completed, set to `false`.
+
 #### options.killOn
 Type: `String`  
 Default value: `''`
 
-A string value that is used to determine when the IIS Express process should be killed. The IIS Express process will not automatically terminate when Grunt exits. This may be your desired behavior. If, however, you *do* want the IIS Express process to terminate, you will have to specify the name of an event for it to trigger the process kill.
+A string value that is used to determine when the IIS Express process should be killed. By default IIS Express process will be killed when Grunt exits (if not disabled by `killOnExit` option set to `false`). Here you can specify the name of an event to trigger IIS Express process kill when you need it.
+
+#### options.open
+Type: `Boolean`  
+Default value: `false`
+
+If set to `true`, requested URL will be opened in the browser after IIS Express server is started. Entire URL to open can be specified using `openUrl` option or it will be `'http://localhost:{port}{openPath}'`, where `port` and `openPath` are another options. By default is `false`.
+
+#### options.openPath
+Type: `String`  
+Default value: `'/'`
+
+The path part of the URL to be opened in the browser. Will not work without `open` option set to `true`.
+
+#### options.openUrl
+Type: `String`  
+Default value: `null`
+
+The URL to be opened in the browser after IIS Express server is started. Will not work without `open` option set to `true`.
+
+#### options.verbose
+Type: `Boolean`  
+Default value: `false`
+
+Enable verbose output, both for Grunt task and IIS Express. Disabled by default.
 
 ### IIS Express Options
 
@@ -128,7 +166,7 @@ grunt.initConfig({
 ```
 
 #### Killing IIS Express
-The IIS Express process will not automatically terminate when Grunt exits. This may be your desired behavior. If, however, you *do* want the IIS Express process to terminate, you will have to specify the name of an event to trigger the process kill.
+By default IIS Express process will be killed when Grunt exits (if not disabled by `killOnExit` option set to `false`). You can also specify the name of an event to trigger IIS Express process kill when you need it.
 
 You may be able to listen to an event emitted by another Grunt plugin that you are using. For example, to kill IIS Express after running [grunt-contrib-qunit](https://github.com/gruntjs/grunt-contrib-qunit/) tests:
 

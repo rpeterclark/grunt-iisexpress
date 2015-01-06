@@ -62,7 +62,9 @@ module.exports = function(grunt) {
 				grunt.fail.fatal('Must specify port or openUrl when open==true');
 			}
 			var url = options.openUrl || 'http://localhost:' + options.port + options.openPath;
-			grunt.log.writeln('opening', url);
+			if (options.verbose) {
+				grunt.log.writeln('opening', url);
+			}
 
 			var done = this.async();
 			require('open')(url, function() {

@@ -59,7 +59,11 @@ module.exports = function(grunt) {
 			}
 			var url = options.openUrl || 'http://localhost:' + options.port + options.openPath;
 			grunt.log.writeln('opening', url);
-			require('open')(url);
+
+			var done = this.async();
+			require('open')(url, function() {
+				done();
+			});
 		}
 
 		if (options.killOn !== '') {

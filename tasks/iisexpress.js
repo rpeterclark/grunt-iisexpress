@@ -43,12 +43,12 @@ module.exports = function(grunt) {
 
 		if (options.verbose===true) {
 			spawn.stdout.on('data', function (data) {
-				grunt.log.write(data);
+				grunt.log.write(data.toString());
 			});
 		}
 
 		spawn.stderr.on('data', function (data) {
-			grunt.warn(data);
+			grunt.warn(data.toString());
 		});
 
 		grunt.log.ok('Started IIS Express.');

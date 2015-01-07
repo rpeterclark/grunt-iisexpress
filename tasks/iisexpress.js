@@ -5,6 +5,7 @@ module.exports = function(grunt) {
 		var _ = grunt.util._;
 		var options = this.options({
 			cmd: 'c:/program files/iis express/iisexpress.exe',
+			keepalive: false,
 			killOn: '',
 			killOnExit: true,
 			open: false,
@@ -14,6 +15,9 @@ module.exports = function(grunt) {
 		});
 		var killed = false;
 
+		// keepalive can be an option or a flag (eg 'iisexpress:dist:keepalive')
+		var keepAlive = this.flags.keepalive || options.keepalive;
+
 		// If no entry point defined: run in the current dir
 		if (options.config === undefined && options.site === undefined &&
 			options.siteid === undefined && options.path === undefined) {
@@ -21,7 +25,7 @@ module.exports = function(grunt) {
 		}
 
 		// Convert options to command line parameter format
-		var args = _.map(_.pairs(_.omit(options, ['cmd', 'killOn', 'killOnExit', 'open', 'openPath', 'openUrl', 'verbose'])), function(option) {
+		var args = _.map(_.pairs(_.omit(options, ['cmd', 'keepalive', 'killOn', 'killOnExit', 'open', 'openPath', 'openUrl', 'verbose'])), function(option) {
 			if (option[0] == 'path') {
 				option[1] = require('path').resolve(option[1]);
 			}
@@ -43,12 +47,12 @@ module.exports = function(grunt) {
 
 		if (options.verbose===true) {
 			spawn.stdout.on('data', function (data) {
-				grunt.log.write(data);
+				grunt.log.write(data.toString());
 			});
 		}
 
 		spawn.stderr.on('data', function (data) {
-			grunt.warn(data);
+			grunt.warn(data.toString());
 		});
 
 		grunt.log.ok('Started IIS Express.');
@@ -58,8 +62,23 @@ module.exports = function(grunt) {
 				grunt.fail.fatal('Must specify port or openUrl when open==true');
 			}
 			var url = options.openUrl || 'http://localhost:' + options.port + options.openPath;
-			grunt.log.writeln('opening', url);
-			require('open')(url);
+			if (options.verbose) {
+				grunt.log.writeln('opening', url);
+			}
+
+			var done = this.async();
+			require('open')(url, function() {
+				if (!keepAlive) {
+					done();
+				} else {
+					grunt.log.writeln('Waiting forever...');
+				}
+			});
+		}
+
+		if (keepAlive && !done) {
+			var waitForever = this.async(); // grunt will not finish the task
+			grunt.log.writeln('Waiting forever...');
 		}
 
 		if (options.killOn !== '') {

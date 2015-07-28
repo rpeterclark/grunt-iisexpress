@@ -42,6 +42,8 @@ Default value: `c:/program files/iis express/iisexpress.exe`
 
 A string value that specifies the location of the IIS Express executable.
 
+The default path uses the x64 (64-bit) version of IIS Express. If you need to use the x86 (32-bit) version, for instance to mimic the default Azure Websites configuration, use `C:/Program Files (x86)/IIS Express/iisexpress.exe` instead.
+
 #### options.keepalive
 Type: `Boolean`  
 Default value: `false`

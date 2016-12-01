@@ -11,7 +11,8 @@ module.exports = function(grunt) {
 			open: false,
 			openPath: '/',
 			openUrl: null,
-			verbose: false
+			verbose: false,
+			waitUntilStarted: false
 		});
 		var killed = false;
 
@@ -25,7 +26,7 @@ module.exports = function(grunt) {
 		}
 
 		// Convert options to command line parameter format
-		var args = _.map(_.pairs(_.omit(options, ['cmd', 'keepalive', 'killOn', 'killOnExit', 'open', 'openPath', 'openUrl', 'verbose'])), function(option) {
+		var args = _.map(_.pairs(_.omit(options, ['cmd', 'keepalive', 'killOn', 'killOnExit', 'open', 'openPath', 'openUrl', 'verbose', 'waitUntilStarted'])), function(option) {
 			if (option[0] == 'path') {
 				option[1] = require('path').resolve(option[1]);
 			}
@@ -55,7 +56,19 @@ module.exports = function(grunt) {
 			grunt.warn(data.toString());
 		});
 
-		grunt.log.ok('Started IIS Express.');
+		if (options.waitUntilStarted) {
+			grunt.log.writeln('Waiting until IIS Express is running')
+
+			var done = this.async();
+			spawn.stdout.on('data', function (data) {
+				if (data.toString().indexOf('IIS Express is running.') !== -1) {
+					grunt.log.ok('Started IIS Express.');
+					done();
+				}
+			});
+		} else {
+			grunt.log.ok('Started IIS Express.');
+		}
 
 		if (options.open===true) {
 			if (!options.port && !options.openUrl) {

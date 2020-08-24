@@ -28,10 +28,10 @@
     "test": "grunt test"
   },
   "devDependencies": {
-    "grunt-contrib-jshint": "~0.1.1",
-    "grunt-contrib-clean": "~0.4.0",
-    "grunt-contrib-nodeunit": "~0.1.2",
-    "grunt": "~0.4.1"
+    "grunt": "^1.3.0",
+    "grunt-contrib-clean": "^2.0.0",
+    "grunt-contrib-jshint": "^2.1.0",
+    "grunt-contrib-nodeunit": "^2.1.0"
   },
   "peerDependencies": {
     "grunt": "~0.4.1"
@@ -40,6 +40,7 @@
     "gruntplugin"
   ],
   "dependencies": {
-    "open": "0.0.4"
+    "lodash": "^4.17.20",
+    "open": "^7.2.0"
   }
 }

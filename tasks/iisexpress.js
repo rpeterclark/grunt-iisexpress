@@ -2,7 +2,7 @@ module.exports = function(grunt) {
 	'use strict';
 
 	grunt.registerMultiTask('iisexpress', 'Start an IIS Express process.', function() {
-		var _ = grunt.util._;
+		var _ = require('lodash');
 		var options = this.options({
 			cmd: 'c:/program files/iis express/iisexpress.exe',
 			keepalive: false,
@@ -25,8 +25,8 @@ module.exports = function(grunt) {
 		}
 
 		// Convert options to command line parameter format
-		var args = _.map(_.pairs(_.omit(options, ['cmd', 'keepalive', 'killOn', 'killOnExit', 'open', 'openPath', 'openUrl', 'verbose'])), function(option) {
-			if (option[0] == 'path') {
+		var args = _.map(_.toPairs(_.omit(options, ['cmd', 'keepalive', 'killOn', 'killOnExit', 'open', 'openPath', 'openUrl', 'verbose'])), function(option) {
+			if (option[0] === 'path') {
 				option[1] = require('path').resolve(option[1]);
 			}
 			return '-' + option[0] + ':' + option[1];
@@ -57,6 +57,7 @@ module.exports = function(grunt) {
 
 		grunt.log.ok('Started IIS Express.');
 
+		var done = null;
 		if (options.open===true) {
 			if (!options.port && !options.openUrl) {
 				grunt.fail.fatal('Must specify port or openUrl when open==true');
@@ -66,7 +67,7 @@ module.exports = function(grunt) {
 				grunt.log.writeln('opening', url);
 			}
 
-			var done = this.async();
+			done = this.async();
 			require('open')(url, function() {
 				if (!keepAlive) {
 					done();
@@ -79,6 +80,26 @@ module.exports = function(grunt) {
 		if (keepAlive && !done) {
 			var waitForever = this.async(); // grunt will not finish the task
 			grunt.log.writeln('Waiting forever...');
+		}
+
+		function kill() {
+			if (killed) {
+				return;
+			}
+			if (options.verbose) {
+				grunt.log.write('Stopping IIS Express..');
+			}
+			spawn.kill();
+			killed = true;
+			if (options.verbose) {
+				grunt.log.write(' ');
+				grunt.log.ok();
+			}
+		}
+
+		function killAndExit() {
+			kill();
+			process.exit();
 		}
 
 		if (options.killOn !== '') {
@@ -102,26 +123,6 @@ module.exports = function(grunt) {
 			process.on('SIGINT', killAndExit);
 			process.on('SIGHUP', killAndExit);
 			process.on('SIGBREAK', killAndExit);
-		}
-
-		function kill() {
-			if (killed) {
-				return;
-			}
-			if (options.verbose) {
-				grunt.log.write('Stopping IIS Express..');
-			}
-			spawn.kill();
-			killed = true;
-			if (options.verbose) {
-				grunt.log.write(' ');
-				grunt.log.ok();
-			}
-		}
-
-		function killAndExit() {
-			kill();
-			process.exit();
 		}
 	});
 };
